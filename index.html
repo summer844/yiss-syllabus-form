@@ -847,6 +847,11 @@
                 week5.style.display = 'block';
                 week6.style.display = 'block';
             }
+
+            // 6주면 Week 5·6 Daily Topics도 필수, 4주면 해제 — 숨겨진 필수 칸은 제출 자체를 막으므로 반드시 세션과 함께 토글
+            var w56Required = session === '6-Week';
+            document.getElementById('week5Topics').required = w56Required;
+            document.getElementById('week6Topics').required = w56Required;
         }
         
         // Calculate methods total
