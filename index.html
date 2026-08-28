@@ -1005,7 +1005,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             calcMethodsTotal();
             calcGradingTotal();
-            checkEditMode();
+            updateProgramType();   // 기본 세션(6-Week) 기준으로 교시 옵션·주차 표시·필수 토글 초기화
+            checkEditMode();       // prefill/edit 세션이 있으면 이 안에서 다시 갱신됨
         });
     </script>
 </body>
