@@ -877,14 +877,40 @@
         function checkEditMode() {
             var urlParams = new URLSearchParams(window.location.search);
             var editId = urlParams.get('edit');
-            
+
             if (editId) {
                 document.getElementById('editId').value = editId;
                 document.getElementById('editBanner').classList.add('show');
                 document.getElementById('submitBtn').textContent = 'Update Syllabus';
-                
+
                 // Load existing data
                 loadExistingData(editId);
+            } else {
+                // 초대 링크 prefill — 담당자가 미리 정한 값을 채워 두되, 교수가 수정할 수 있다 (잠그지 않음)
+                var pf = {
+                    courseCode: urlParams.get('courseCode'),
+                    courseTitle: urlParams.get('courseTitle'),
+                    instructor: urlParams.get('instructor')
+                };
+                Object.keys(pf).forEach(function(id) {
+                    if (pf[id]) document.getElementById(id).value = pf[id];
+                });
+                var session = urlParams.get('session');
+                if (session && classPeriodOptions[session]) {
+                    document.getElementById('session').value = session;
+                    updateProgramType();   // 세션에 맞는 교시 선택지 + 주차 표시 갱신
+                }
+                var classPeriod = urlParams.get('classPeriod');
+                if (classPeriod) {
+                    var sel = document.getElementById('classPeriod');
+                    for (var i = 0; i < sel.options.length; i++) {
+                        // 'P1 (09:00~10:40)' 전체 또는 'P1' 접두어 어느 쪽으로 넣어도 매칭
+                        if (sel.options[i].value === classPeriod || sel.options[i].value.indexOf(classPeriod) === 0) {
+                            sel.value = sel.options[i].value;
+                            break;
+                        }
+                    }
+                }
             }
         }
         
